@@ -1,0 +1,78 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #fafafa;
+}
+
+legend {
+    text-align: center;
+}
+
+#loginForm {
+    margin-bottom: 0;
+}
+
+#under-card {
+    text-align: center;
+    margin-top: 5px;
+}
+
+#recent-message {
+    color: grey;
+}
+
+.class-link,.class-link:link,.class-link:visited,.class-link:hover,.class-link:focus,.class-link:active{
+    color: inherit;
+    text-decoration: none;
+}
+
+.class-link-block:hover {
+    background-color: #ffffff
+}
+
+.class-link-block:active, .class-link-block:focus {
+    background: #d1e2fc;
+}
+
+.tray {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f8f8f8
+
+}
+
+.tray::-webkit-scrollbar-track
+{
+    background-color: rgba(0,0,0,0.1);
+}
+
+.tray::-webkit-scrollbar
+{
+	width: 10px;
+}
+
+.tray::-webkit-scrollbar-thumb
+{
+	background-color: rgba(0,0,0,0.4);
+    border-radius: 5px;
+}
+
+#chat-panel {
+    border-radius: 0px;
+}
+
+.chat-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#msg-board {
+    flex-grow: 1;
+}
+
+#chat-input {
+    margin: 0;
+}
