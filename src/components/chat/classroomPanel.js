@@ -1,8 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ClassroomBlock from './classroomBlock'
+import { getClassrooms } from '../../actions/chat';
 
 class ClassroomPanel extends Component {
+
+    componentWillMount() {
+        this.props.getClassrooms();
+    }
+
+    renderInbox() {
+        var date = new Date();
+        date.setHours(0,0,0,0)
+        if (this.props.classrooms && this.props.classrooms.length > 0) {
+            let classList = this.props.classrooms.map((classroom, i) => {
+                return ( <ClassroomBlock info={classroom} date={date}/> );
+            });
+            return classList
+        }
+       return <div>You do not have any active classrooms.</div>;
+    }
 
     render() {
         return (
@@ -18,16 +35,17 @@ class ClassroomPanel extends Component {
                     </div>
                 </div>
                 <div className="tray">
-                    <ClassroomBlock />
-                    <ClassroomBlock />
-                    <ClassroomBlock />
-                    <ClassroomBlock />
-                    <ClassroomBlock />
-                    <ClassroomBlock />
+                    {this.renderInbox()}
                 </div>
             </div>
         );
     }
 }
 
-export default ClassroomPanel;
+function mapStateToProps(state) {
+    return {
+        classrooms: state.chat.classroomList,
+    };
+}
+
+export default connect(mapStateToProps, { getClassrooms })(ClassroomPanel);

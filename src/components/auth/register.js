@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router';
+import { Link, browserHistory} from 'react-router';
 import { registerUser, resetError } from '../../actions/auth';
 
 const form = reduxForm({
@@ -42,7 +42,7 @@ class Register extends Component {
 
     componentWillMount() {
         if (this.props.authenticated) {
-            this.context.router.push('/dashboard');
+            browserHistory.push('/dashboard');
         } else {
             this.props.resetError()
         }
@@ -50,7 +50,7 @@ class Register extends Component {
 
     componentWillUpdate(nextProps) {
         if (nextProps.authenticated) {
-            this.context.router.push('/dashboard');
+            browserHistory.push('/dashboard');
         }
     }
 
@@ -110,7 +110,7 @@ function mapStateToProps(state) {
     return {
         errorMessage: state.auth.error,
         message: state.auth.message,
-        authenticated: state.auth.authenticated
+        authenticated: state.auth.authenticated,
     };
 }
 

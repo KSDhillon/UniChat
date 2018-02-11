@@ -41,9 +41,9 @@ module.exports = function(app) {
     chatRoutes.get('/', requireAuth, ChatController.getClassrooms);
     chatRoutes.get('/:classroomId', requireAuth, ChatController.getClassroom);
 
-    chatRoutes.post('/:classroomId', requireAuth, ChatController.sendMessage);
+    chatRoutes.post('/message/:classroomId', requireAuth, ChatController.sendMessage);
     chatRoutes.post('/enroll/:classroomId', requireAuth, ChatController.enrollInClassroom);
-    chatRoutes.post('/new/:recipient', requireAuth, ChatController.newClassroom);
+    chatRoutes.post('/new/', requireAuth, ChatController.newClassroom);
 
     chatRoutes.put('/message/:messageId', requireAuth, ChatController.updateMessage);
 

@@ -26,8 +26,13 @@ exports.getClassrooms = function(req, res, next) {
                         res.send({ error: err });
                         return next(err);
                     }
-                    message.unshift({ classroomName: classroom.name })
-                    messageArr.push(message);
+                    //message.unshift({ classroomName: classroom.name, classroomId: classroom._id })
+                    let classInfo = {
+                        classroomName: classroom.name,
+                        classroomId: classroom._id,
+                        recentMessage: message,
+                    }
+                    messageArr.push(classInfo);
                     if (messageArr.length === classrooms.length) {
                         return res.status(200).json({ classrooms: messageArr });
                     }
@@ -35,7 +40,7 @@ exports.getClassrooms = function(req, res, next) {
 
             });
             if (classrooms.length == 0) {
-                return res.status(200).json({ empty: true });
+                return res.status(200).json({ classrooms: [] });
             }
         });
 }
@@ -54,7 +59,7 @@ exports.getClassroom = function(req, res, next) {
                 return next(err);
         }
 
-        return res.status(200).json({ classroom: messages });
+        return res.status(200).json({ classroom: req.params.classroomName, messages: messages });
     });
  }
 
@@ -89,15 +94,6 @@ exports.dropClassroom = function(req, res, next) {
 }
 
 exports.newClassroom = function(req, res, next) {
-    if(!req.params.recipient) {
-        res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
-        return next();
-    }
-
-    if(!req.body.composedMessage) {
-        res.status(422).send({ error: 'Please enter a message.' });
-        return next();
-    }
 
     if(!req.body.classroomName) {
         res.status(422).send({ error: 'Please enter a classroom name.' });
@@ -106,7 +102,7 @@ exports.newClassroom = function(req, res, next) {
 
     const classroom = new Classroom({
         name: req.body.classroomName,
-        participants: [req.user._id, req.params.recipient]
+        participants: [req.user._id]
     });
 
     classroom.save(function(err, newClassroom) {
@@ -115,21 +111,9 @@ exports.newClassroom = function(req, res, next) {
             return next(err);
         }
 
-        const message = new Message({
-            classroomId: newClassroom._id,
-            body: req.body.composedMessage,
-            author: req.user._id
-        });
+        res.status(200).json({ success: true });
+        return next();
 
-        message.save(function(err, newMessage) {
-            if (err) {
-                res.send({ error: err });
-                return next(err);
-            }
-
-            res.status(200).json({ success: true, message: newMessage });
-            return next();
-        });
     });
 }
 
